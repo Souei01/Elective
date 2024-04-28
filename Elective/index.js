@@ -28,9 +28,9 @@ let products = [
     },
     {
         id: 3,
-        name: 'Spicy Chicken Burger',
+        name: 'Chicken Sisig',
         image: '3.png',
-        price: 99
+        price: 160
     },
     {
         id: 4,
@@ -51,110 +51,194 @@ let products = [
         price: 110
     },
     {
-        id: 1,
-        name: 'PRODUCT NAME1',
-        image: '1.png',
-        price: 100000
+        id: 7,
+        name: 'Knicker Bocker',
+        image: '7.png',
+        price: 99
     },
     {
-        id: 2,
-        name: 'PRODUCT NAME2',
-        image: '2.png',
-        price: 200000
+        id: 8,
+        name: 'Halo Halo',
+        image: '8.png',
+        price: 99
     },
     {
-        id: 3,
-        name: 'PRODUCT NAME3',
-        image: '3.png',
-        price: 300000
+        id: 9,
+        name: 'fries',
+        image: '9.png',
+        price: 65
     },
     {
-        id: 4,
-        name: 'PRODUCT NAME4',
-        image: '4.png',
-        price: 400000
+        id: 10,
+        name: 'Fruit Soda',
+        image: '10.png',
+        price: 65
     },
     {
-        id: 5,
-        name: 'PRODUCT NAME5',
-        image: '5.png',
-        price: 500000
+        id: 11,
+        name: 'Pancit Sotanghon',
+        image: '11.png',
+        price: 225
     },
     {
-        id: 6,
-        name: 'PRODUCT NAME6',
-        image: '6.png',
-        price: 600000
+        id: 12,
+        name: 'Pancit Miki',
+        image: '12.png',
+        price: 170
     }
 ];
-let listCarts = [];
-function initApp(){
-    products.forEach((value, key)=>{
+// Retrieve cart content from localStorage on page load or initialize an empty array if not present
+let listCarts = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+
+function initApp() {
+    products.forEach((product, index) => {
         let newDiv = document.createElement('div');
         newDiv.classList.add('item');
+        // Assign category based on the product ID for filtering
+        if (product.id <= 2) {
+            newDiv.dataset.category = "Burger";
+        } else if (product.id <= 6) {
+            newDiv.dataset.category = "Meal";
+        } else if (product.id <= 10) {
+            newDiv.dataset.category = "Drinks & beverages";
+        } else {
+            newDiv.dataset.category = "Short Orders";
+        }
+        newDiv.dataset.id = product.id.toString(); // Ensure IDs are strings for comparison
         newDiv.innerHTML = `
-            <img src="images/${value.image}"/>
-            <div class="title">${value.name}</div>
-            <div class="price">₱${value.price.toLocaleString()}</div> <!-- Add peso sign here -->
-            <button onclick="addToCart(${key})">Add To Cart</button>
+            <img src="images/${product.image}"/>
+            <div class="title">${product.name}</div>
+            <div class="price">₱${product.price.toLocaleString()}</div>
+            <button onclick="addToCart(${index})">Add To Cart</button>
         `;
-        list.appendChild(newDiv);
-    })
-}
+        document.querySelector('.list').appendChild(newDiv);
+    });
 
-  
-   
-initApp();
-function addToCart(key){
-    let existingProduct = listCarts.find(item => item.id === products[key].id);
-    if(existingProduct){
-        existingProduct.quantity++;
-        existingProduct.price = existingProduct.quantity * existingProduct.price;
-    } else {
-        listCarts.push({...products[key], quantity: 1});
-    }
     reloadCart();
 }
 
 
-function reloadCart(){
-    listCart.innerHTML = '';
-    let count = 0;
+function reloadCart() {
+    listCart.innerHTML = ''; // Clear the cart list
+    let totalQuantity = 0;
     let totalPrice = 0;
-    listCarts.forEach((value, key)=>{
-        totalPrice += value.price;
-        count += value.quantity;
 
-        if(value != null){
-            let newDiv = document.createElement('li');
-            newDiv.innerHTML = `
-            <div><img src="images/${value.image}"/></div>
-            <div>${value.name}</div>
-            <div>${value.price.toLocaleString()}</div>
-            <div>${value.quantity}</div>
+    listCarts.forEach((item, index) => {
+        totalQuantity += item.quantity;
+        totalPrice += item.price * item.quantity;
+        
+        let cartItem = document.createElement('li');
+        cartItem.innerHTML = `
+            <img src="images/${item.image}" />
+            <div>${item.name}</div>
+            <div>₱${item.price.toLocaleString()}</div>
             <div>
-                <button onclick="changeQuantity(${key}, ${value.quantity - 1})">-</button>
-                <div class="count">${value.quantity}</div>
-                <button onclick="changeQuantity(${key}, ${value.quantity + 1})">+</button>
+                <button onclick="changeQuantity(${index}, 'decrement', event)">-</button>
+                <span>${item.quantity}</span>
+                <button onclick="changeQuantity(${index}, 'increment', event)">+</button>
             </div>
-            `;
-            listCart.appendChild(newDiv);
-        }
+        `;
+        listCart.appendChild(cartItem);
     });
-    
-    console.log("Total Price:", totalPrice);
-    total.innerText = totalPrice.toLocaleString();
-    console.log("Total Element Text:", total.innerText);
-    quantity.innerText = count;
+
+    total.innerText = `Total: ₱${totalPrice.toLocaleString()}`;
+    quantity.innerText = totalQuantity;
 }
 
-function changeQuantity(key, newQuantity){
-    if(newQuantity === 0){
-        listCarts.splice(key, 1);
-    } else {
-        listCarts[key].quantity = newQuantity;
-        listCarts[key].price = newQuantity * products[key].price;
+
+function changeQuantity(key, action, event) {
+    event.stopPropagation(); 
+
+    const product = listCarts[key];
+    if (action === 'increment') {
+        product.quantity++;
+    } else if (action === 'decrement') {
+        if (product.quantity > 0) { 
+            product.quantity--;
+        }
+        if (product.quantity === 0) { 
+            listCarts.splice(key, 1);
+        }
     }
+
+    product.price = products[product.id - 1].price * product.quantity; 
+    updateLocalStorage(); 
+    reloadCart(); 
+}
+
+
+
+
+function updateLocalStorage() {
+    localStorage.setItem('cartItems', JSON.stringify(listCarts));
+}
+document.addEventListener('click', (event) => {
+    const cart = document.querySelector('.cart');
+    const isClickInsideCart = cart.contains(event.target);
+    const isClickOnOpenButton = event.target.closest('.shopping');
+    // Identify if the click is on a quantity change button
+    const isQuantityChangeButton = event.target.closest('.listCart li div button');
+
+    if (!isClickInsideCart && !isClickOnOpenButton && !isQuantityChangeButton) {
+        console.log("Closing cart due to outside click");
+        body.classList.remove('active');
+    } else {
+        console.log("Not closing cart");
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+            const checkoutButton = document.querySelector('.checkout');
+            checkoutButton.addEventListener('click', () => {
+                window.location.href = 'checkout.html';
+            });
+        });
+const categoryMapping = {
+    "Show All": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+    "Burger": ["1", "2"],
+    "Meal": ["3", "4", "5", "6"],
+    "Drinks & beverages": ["7", "8", "9", "10"],
+    "Short Orders": ["11", "12"]
+};
+
+function filterItems(category) {
+    const allItems = document.querySelectorAll('.item');
+    const idsToShow = categoryMapping[category]; // Define idsToShow within the function scope
+
+    allItems.forEach(item => {
+        if (idsToShow.includes(item.dataset.id)) {
+            item.style.display = ''; // Revert to default display style, which is determined by CSS
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+
+document.querySelectorAll('.filterButton').forEach(button => {
+    button.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent the default form submit if it's inside a form
+        event.stopPropagation(); // Stop the event from bubbling up to higher elements
+        filterItems(this.dataset.category);
+    });
+});
+
+window.onload = () => {
+    initApp(); // Initialize the app
+    filterItems("Show All"); // Display all items on initial load
+  };
+  function addToCart(index) {
+    const product = products[index];
+    let productInCart = listCarts.find(item => item.id === product.id);
+
+    if (productInCart) {
+        productInCart.quantity++;
+    } else {
+        productInCart = { ...product, quantity: 1 };
+        listCarts.push(productInCart);
+    }
+
+    updateLocalStorage();
     reloadCart();
 }
 
