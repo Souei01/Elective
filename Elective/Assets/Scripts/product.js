@@ -1,17 +1,19 @@
 let products = [
-    { id: 1, name: "Chicken Burger", price: 89, category: "Burger", image: "images/1.png" },
-    { id: 2, name: "Beef Burger", price: 99, category: "Burger", image: "images/2.png" },
-    { id: 3, name: "Chicken Sisig", price: 160, category: "Meal", image: "images/3.png" },
-    { id: 4, name: "Petcho Inasal", price: 120, category: "Meal", image: "images/4.png" },
-    { id: 5, name: "Pierna Inasal", price: 110, category: "Meal", image: "images/5.png" },
-    { id: 6, name: "Fried Chicken", price: 110, category: "Meal", image: "images/6.png" },
-    { id: 7, name: "Knicker Bocker", price: 99, category: "Dessert", image: "images/7.png" },
-    { id: 8, name: "Halo Halo", price: 99, category: "Dessert", image: "images/8.png" },
-    { id: 9, name: "Fries", price: 65, category: "Side Dish", image: "images/9.png" },
-    { id: 10, name: "Fruit Soda", price: 65, category: "Drinks & Beverages", image: "images/10.png" },
-    { id: 11, name: "Pancit Sotanghon", price: 225, category: "Short Orders", image: "images/11.png" },
-    { id: 12, name: "Pancit Miki", price: 170, category: "Short Orders", image: "images/12.png" }
+    { id: 1, name: "Chicken Burger", price: 89, category: "Burger", image: "Assets/images/1.png" },
+    { id: 2, name: "Beef Burger", price: 99, category: "Burger", image: "Assets/images/2.png" },
+    { id: 3, name: "Chicken Sisig", price: 160, category: "Meal", image: "Assets/images/3.png" },
+    { id: 4, name: "Petcho Inasal", price: 120, category: "Meal", image: "Assets/images/4.png" },
+    { id: 5, name: "Pierna Inasal", price: 110, category: "Meal", image: "Assets/images/5.png" },
+    { id: 6, name: "Fried Chicken", price: 110, category: "Meal", image: "Assets/images/6.png" },
+    { id: 7, name: "Knicker Bocker", price: 99, category: "Dessert", image: "Assets/images/7.png" },
+    { id: 8, name: "Halo Halo", price: 99, category: "Dessert", image: "Assets/images/8.png" },
+    { id: 9, name: "Fries", price: 65, category: "Side Dish", image: "Assets/images/9.png" },
+    { id: 10, name: "Fruit Soda", price: 65, category: "Drinks & Beverages", image: "Assets/images/10.png" },
+    { id: 11, name: "Pancit Sotanghon", price: 225, category: "Short Orders", image: "Assets/images/11.png" },
+    { id: 12, name: "Pancit Miki", price: 170, category: "Short Orders", image: "Assets/images/12.png" }
 ];
+
+
 
 
 function renderProducts() {

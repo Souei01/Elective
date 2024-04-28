@@ -17,12 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Populate order summary with items and images
    // ...
 
-cartItems.forEach(item => {
+   cartItems.forEach(item => {
     const li = document.createElement('li');
     li.className = 'summary-item';
     li.innerHTML = `
         <div class="summary-item-info">
-            <img src="images/${item.image}" alt="${item.name}" class="summary-item-image">
+            <img src="Assets/images/${item.image}" alt="${item.name}" class="summary-item-image">
             <div class="summary-item-details">
                 <span>${item.name}</span>
                 <span> x ${item.quantity}</span>
@@ -32,6 +32,7 @@ cartItems.forEach(item => {
     `;
     summaryList.appendChild(li);
 });
+
 
 // ...
 
