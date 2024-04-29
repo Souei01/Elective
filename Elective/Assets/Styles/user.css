@@ -131,7 +131,7 @@ body{
     padding: 20px;
     margin-left: 300px;
     margin-top: 20px;
-    min-width: 60%;
+    min-width: 100%;
     
   }
   
@@ -141,11 +141,13 @@ body{
   .user-table {
     width: 100%;
     border-collapse: collapse;
-    
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 0px 2px black;
   }
   
   .user-table thead {
-    background-color: #eaeaea;
+    background-color: orange;
   }
   
   .user-table th,
@@ -154,6 +156,8 @@ body{
     padding: 12px 30px;
     border-bottom: 1px solid #ddd;
     font-size: .8rem;
+  }.user-table td{
+    background-color: rgb(244, 240, 240);
   }
   
 
