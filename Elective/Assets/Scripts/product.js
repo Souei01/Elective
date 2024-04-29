@@ -71,8 +71,9 @@ function saveProduct() {
 }
 
 function deleteProduct(productId) {
-    products = products.filter(p => p.id !== productId);
-    renderProducts();
+    deleteProductId = productId; // Store the product ID for deletion
+    document.getElementById("deleteConfirmModal").style.display = "block";
+    
 }
 
 function closeModal() {
@@ -92,4 +93,16 @@ function showAddProductModal() {
 
     // Show the modal
     document.getElementById('productModal').style.display = 'block';
+}
+function confirmDeletion() {
+    if (deleteProductId !== null) {
+        products = products.filter(p => p.id !== deleteProductId);
+        renderProducts();
+    }
+    closeDeleteModal();
+}
+
+function closeDeleteModal() {
+    deleteProductId = null;
+    document.getElementById("deleteConfirmModal").style.display = "none";
 }
